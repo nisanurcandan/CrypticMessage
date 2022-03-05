@@ -1,7 +1,42 @@
 from tkinter import *
 from tkinter import messagebox
-import base64
-import os
+
+alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", 
+            "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+new_alphabet = []
+
+def crypticMessage(word, keyword):
+    encrypted_word = "" 
+
+    for letter in keyword:
+        new_alphabet.append(letter)
+    
+    for letter in alphabet:
+        if letter not in keyword:
+            new_alphabet.append(letter)
+
+    for letter in word:
+        if letter == " ":
+            encrypted_word += " "
+        if letter == "\n":
+            encrypted_word += " "
+        else:
+            encrypted_word += new_alphabet[alphabet.index(letter)] 
+
+    return encrypted_word
+
+def decrypticMessage(word):
+    decrypted_word = "" 
+    
+    for letter in word:
+        if letter == " ":
+            decrypted_word += " "
+        if letter == "\n":
+            decrypted_word += " "
+        else:
+            decrypted_word += alphabet[new_alphabet.index(letter)] 
+
+    return decrypted_word
 
 def decrypt():
     password=code.get()
@@ -13,9 +48,7 @@ def decrypt():
         screen2.configure(bg="#00bd56")
 
         message=text1.get(1.0,END)
-        decode_message=message.encode("ascii")
-        base64_bytes=base64.b64decode(decode_message)
-        decrypt=base64_bytes.decode("ascii")
+        decrypt=decrypticMessage(message)
 
         Label(screen2,text="DECRYPT",font="arial",fg="white",bg="#00bd56").place(x=10,y=0)
         text2=Text(screen2,font="Rpbote 10",bg="white",relief=GROOVE,wrap=WORD,bd=0)
@@ -39,9 +72,7 @@ def encrypt():
         screen1.configure(bg="#ed3833")
 
         message=text1.get(1.0,END)
-        encode_message=message.encode("ascii")
-        base64_bytes=base64.b64encode(encode_message)
-        encrypt=base64_bytes.decode("ascii")
+        encrypt=crypticMessage(message,"nisa")
 
         Label(screen1,text="ENCRYPT",font="arial",fg="white",bg="#ed3833").place(x=10,y=0)
         text2=Text(screen1,font="Rpbote 10",bg="white",relief=GROOVE,wrap=WORD,bd=0)
